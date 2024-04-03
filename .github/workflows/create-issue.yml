@@ -1,40 +1,64 @@
-name: Printar Valores da Issue
+name: Processar Parâmetros da Issue
 
 on:
   issues:
     types: [opened]
-  workflow_dispatch:
-    inputs:
-      issue_number:
-        description: "Número da Issue utilizada"
-        type: number
 
 jobs:
-  get-issue-number:
-    runs-on: ubuntu-latest
-    outputs:
-      issue_number: ${{ github.event.inputs.issue_number }}
-    steps:
-      - name: Setar número da issue
-        id: set_issue_number
-        run: echo "::set-output name=issue_number::${{ github.event.inputs.issue_number }}"
-
-  print-values:
-    needs: get-issue-number
+  process-parameters:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v2
-
-      - name: Printar valores da issue
+      - name: Extrair Parâmetros da Issue
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: issue } = await github.issues.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: '${{ github.event.issue.number }}'
-            });
-            console.log('Nome do Resource Group:', issue.body);
+            const issue = context.payload.issue;
+            const parameters = {
+              resourceGroupName: issue.body.match(/Nome do Resource Group: (.*)/)[1]
+              // Adicione mais parâmetros conforme necessário
+            };
+            console.log('Parâmetros da Issue:', parameters);
+
+      # Outras etapas do fluxo de trabalho aqui, usando os parâmetros extraídos
+
+# name: Printar Valores da Issue
+
+# on:
+#   issues:
+#     types: [opened]
+#   workflow_dispatch:
+#     inputs:
+#       issue_number:
+#         description: "Número da Issue utilizada"
+#         type: number
+
+# jobs:
+#   get-issue-number:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       issue_number: ${{ github.event.inputs.issue_number }}
+#     steps:
+#       - name: Setar número da issue
+#         id: set_issue_number
+#         run: echo "::set-output name=issue_number::${{ github.event.inputs.issue_number }}"
+
+#   print-values:
+#     needs: get-issue-number
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout do código
+#         uses: actions/checkout@v2
+
+#       - name: Printar valores da issue
+#         uses: actions/github-script@v5
+#       with:
+#         github-token: ${{ secrets.GITHUB_TOKEN }}
+#         script: |
+#           const { data: issue } = await github.issues.get({
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             issue_number: '${{ github.event.issue.number }}'
+#           });
+#           console.log('Nome do Resource Group:', issue.body);
 
