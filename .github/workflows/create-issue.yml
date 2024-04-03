@@ -1,0 +1,24 @@
+name: Create Issue
+
+on:
+  push:
+    branches:
+      - main  # substitua 'main' pelo nome do seu branch padrão, se necessário
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Issue
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'New Issue Title',
+              body: 'New Issue Body',
+            });
+            console.log(issue);
+
