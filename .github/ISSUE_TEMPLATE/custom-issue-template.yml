@@ -1,5 +1,5 @@
 name: Teste
-description: teste
+description: "teste"
 labels: ["Teste"]
 body:
   - type: dropdown
