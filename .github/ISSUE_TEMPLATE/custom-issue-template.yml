@@ -6,5 +6,5 @@ body:
     id: resource
     label: "Resource"
     options:
-      - "bastion"
-    required: true
+      - value: "bastion"
+        label: "Bastion"
