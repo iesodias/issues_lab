@@ -49,33 +49,3 @@ jobs:
           RG_NAME: ${{ needs.get-issue-number.outputs.rg_name }}
         run: |
           az group create --name $RG_NAME --location eastus
-
-# name: Printar Valores da Issue
-
-# on:
-#   issues:
-#     types: [opened]
-#   workflow_dispatch:
-#     inputs:
-#       issue_number:
-#         description: "Número da Issue utilizada"
-#         type: number
-
-# jobs:
-#   get-issue-number:
-#     runs-on: ubuntu-latest
-#     outputs:
-#       payload: ${{ steps.parse.outputs.payload }}
-#     steps:
-#       - name: Parse issue
-#         id: parse
-#         uses: onmax/issue-form-parser@v1.4
-#         with:
-#           issue_number: ${{ github.event.issue.number }}
-
-#       - name: Show parsed payload data
-#         run: |
-#           echo "${{ steps.parse.outputs.payload }}"
-#           echo "${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
-#           echo "${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
-
