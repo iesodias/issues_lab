@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Create Resource Group
         env:
-          RG_NAME: ${{ needs.setup-env.outputs.rg_name }}
+          RG_NAME: ${{ needs.set-outputs.outputs.rg_name }}
         run: |
           az group create --name $RG_NAME --location eastus
 
@@ -46,15 +46,14 @@ jobs:
     steps:
       - name: Create Storage Account
         env:
-          RG_NAME: ${{ needs.setup-env.outputs.rg_name }}
-          SA_NAME: ${{ needs.setup-env.outputs.sa_name }}
+          RG_NAME: ${{ needs.set-outputs.outputs.rg_name }}
+          SA_NAME: ${{ needs.set-outputs.outputs.sa_name }}
         run: |
           az storage account create \
             --name $SA_NAME \
             --resource-group $RG_NAME \
             --location eastus \
             --sku Standard_LRS
-
 
 
 
