@@ -10,6 +10,13 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: Name2
+    attributes:
+      label: "Name2"
+      placeholder: "Digite o nome do AZ aqui"
+    validations:
+      required: true
 # name: Solicitação para Criar um Resource Group no Azure
 # description: "Essa issue visa criar um resource group na Azure"
 # labels: ["Teste"]
