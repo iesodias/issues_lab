@@ -25,11 +25,13 @@ jobs:
       - name: Setar valores da issue
         id: set_issue_values
         run: |
-          echo "::set-output name=rg_name::${{ steps.parse.outputs.rg_name }}"
-          echo "::set-output name=sa_name::${{ steps.parse.outputs.sa_name }}"
+          rg_name=$(echo '${{ steps.parse.outputs.payload }}' | jq -r '.["Nome do Resource Group"]')
+          sa_name=$(echo '${{ steps.parse.outputs.payload }}' | jq -r '.["Nome do Storage Account"]')
+          echo "::set-output name=rg_name::$rg_name"
+          echo "::set-output name=sa_name::$sa_name"
 
       # Exemplo de como usar os valores capturados
       - name: Mostrar valores da issue
         run: |
-          echo "Nome do Resource Group: ${{ steps.parse.outputs.rg_name }}"
-          echo "Nome do Storage Account: ${{ steps.parse.outputs.sa_name }}"
+          echo "Nome do Resource Group: ${{ steps.outputs.rg_name }}"
+          echo "Nome do Storage Account: ${{ steps.outputs.sa_name }}"
