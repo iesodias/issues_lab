@@ -39,7 +39,14 @@ jobs:
           rg_name="${{ needs.get-issue-number.outputs.rg_name }}"
           sa_name="${{ needs.get-issue-number.outputs.sa_name }}"
 
-
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Create Resource Group
+        run: |
+          az group create --name $RG_NAME --location eastus
 
 # name: Printar Valores da Issue
 
