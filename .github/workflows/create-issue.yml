@@ -24,5 +24,6 @@ jobs:
       - name: Show parsed payload data
         run: |
           echo "${{ steps.parse.outputs.payload }}"
-          echo "${{ fromJson(steps.parse.outputs.payload)['Name'] }}"
+          echo "${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
+          echo "${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
 
