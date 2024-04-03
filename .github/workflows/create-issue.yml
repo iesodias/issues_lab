@@ -34,6 +34,7 @@ jobs:
             const { data: issue } = await github.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: '${{ needs.get-issue-number.outputs.issue_number }}'
+              issue_number: '${{ github.event.issue.number }}'
             });
             console.log('Nome do Resource Group:', issue.body);
+
