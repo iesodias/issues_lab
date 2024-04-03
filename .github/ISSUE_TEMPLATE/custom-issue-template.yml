@@ -4,9 +4,7 @@ labels: ["Teste"]
 body:
   - type: dropdown
     id: resource
-    atributes:
-      label: "resource"
-      option:
-        - bastion
-    validations:
-      required: true
+    label: "Resource"
+    options:
+      - "bastion"
+    required: true
