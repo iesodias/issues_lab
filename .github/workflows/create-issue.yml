@@ -21,6 +21,11 @@ jobs:
         with:
           issue_number: ${{ github.event.issue.number }}
 
+      # - name: Show parsed payload data
+      #   run: |
+      #     echo "${{ steps.parse.outputs.payload }}"
+
       - name: Show parsed payload data
-        run: |
-          echo "${{ steps.parse.outputs.payload }}"
+            run: |
+              echo "${{ steps.parse.outputs.payload }}"
+              echo "Nome do Resource Group: ${{ fromJson(steps.parse.outputs.payload)["Name"] }}"
