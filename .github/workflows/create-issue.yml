@@ -10,14 +10,12 @@ on:
         type: number
 
 jobs:
-  setup-env:
+  get-issue-number:
     runs-on: ubuntu-latest
+    outputs:
+      rg_name: ${{ steps.set-outputs.outputs.rg_name }}
+      sa_name: ${{ steps.set-outputs.outputs.sa_name }}
     steps:
-      - name: Log in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Parse issue
         id: parse
         uses: onmax/issue-form-parser@v1.4
@@ -30,34 +28,16 @@ jobs:
           echo "::set-output name=rg_name::${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
           echo "::set-output name=sa_name::${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
 
-  create-resource-group:
-    needs: setup-env
+  show-parsed-data:
+    needs: get-issue-number
     runs-on: ubuntu-latest
     steps:
-      - name: Create Resource Group
-        env:
-          RG_NAME: ${{ needs.set-outputs.outputs.rg_name }}
+      - name: Creating Variables
         run: |
-          echo "Creating Resource Group $RG_NAME"
-          az group create --name $RG_NAME --location eastus
-
-  create-storage-account:
-    needs: create-resource-group
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Storage Account
-        env:
-          RG_NAME: ${{ needs.set-outputs.outputs.rg_name }}
-          SA_NAME: ${{ needs.set-outputs.outputs.sa_name }}
-        run: |
-          echo "Creating Storage Account $SA_NAME in Resource Group $RG_NAME"
-          az storage account create \
-            --name $SA_NAME \
-            --resource-group $RG_NAME \
-            --location eastus \
-            --sku Standard_LRS
-
-
+          echo "Resource Group Name: ${{ needs.get-issue-number.outputs.rg_name }}"
+          echo "Storage Account Name: ${{ needs.get-issue-number.outputs.sa_name }}"
+          rg_name="${{ needs.get-issue-number.outputs.rg_name }}"
+          sa_name="${{ needs.get-issue-number.outputs.sa_name }}"
 
 
 
