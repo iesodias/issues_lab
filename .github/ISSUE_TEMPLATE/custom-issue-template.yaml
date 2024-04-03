@@ -1,0 +1,13 @@
+name: Teste
+description: teste
+labels: ["Teste"]
+
+body:
+  - type: dropdown
+    id: resource
+    atributes:
+      label: "resource"
+      option:
+        - bastion
+    validations:
+      required: true
