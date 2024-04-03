@@ -15,20 +15,18 @@ jobs:
     outputs:
       issue_number: ${{ github.event.inputs.issue_number }}
     steps:
-      - name: Setar número da issue
-        id: set_issue_number
-        run: echo "::set-output name=issue_number::${{ github.event.inputs.issue_number }}"
-
-  print-issue-values:
-    needs: [get-issue-number]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v2
-        
-      - name: Printar valores da issue
-        uses: issue-form-parser@v2
+      - name: Parse issue
+        id: parse
+        uses: onmax/issue-form-parser@v1.4
         with:
-          issue-number: ${{ needs.get-issue-number.outputs.issue_number }}
-          storage-account-name: ${{ github.event.issue.body }}
+          issue_number: ${{ github.event.issue.number }}
 
+      # Examples on how to use the output
+      - name: Show parsed payload data
+        run: |
+          # Using the character `'` to prevent all characters enclosed within
+          # them from being treated as special characters (e.g. $ or `)
+          echo '${{ steps.parse.outputs.payload }}'
+
+          # Print the value of the "Name" field
+          echo '${{ fromJson(steps.parse.outputs.payload)["Name"] }}'
