@@ -1,7 +1,6 @@
 name: Teste
 description: teste
 labels: ["Teste"]
-
 body:
   - type: dropdown
     id: resource
