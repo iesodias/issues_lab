@@ -1,0 +1,6 @@
+{
+  sections: [
+    'Nome do Resource Group\n\nteste',
+    'Nome do Storage Account\n\nteste'
+  ]
+}

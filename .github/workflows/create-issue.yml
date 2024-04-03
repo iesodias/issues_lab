@@ -25,11 +25,4 @@ jobs:
         run: |
           echo "${{ steps.parse.outputs.payload }}"
 
-          rg_name=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[]' | sed -n '1p')
-          sa_name=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[]' | sed -n '2p')
-
-          echo "Resource Group Name: $rg_name"
-          echo "Storage Account Name: $sa_name"
-
-          echo "::set-output name=rg_name::$rg_name"
-          echo "::set-output name=sa_name::$sa_name"
+          echo '${{ fromJson(steps.parse.outputs.payload)["Name"] }}'
