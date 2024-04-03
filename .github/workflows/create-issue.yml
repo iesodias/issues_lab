@@ -38,6 +38,7 @@ jobs:
         env:
           RG_NAME: ${{ needs.set-outputs.outputs.rg_name }}
         run: |
+          echo "Creating Resource Group $RG_NAME"
           az group create --name $RG_NAME --location eastus
 
   create-storage-account:
@@ -49,11 +50,13 @@ jobs:
           RG_NAME: ${{ needs.set-outputs.outputs.rg_name }}
           SA_NAME: ${{ needs.set-outputs.outputs.sa_name }}
         run: |
+          echo "Creating Storage Account $SA_NAME in Resource Group $RG_NAME"
           az storage account create \
             --name $SA_NAME \
             --resource-group $RG_NAME \
             --location eastus \
             --sku Standard_LRS
+
 
 
 
