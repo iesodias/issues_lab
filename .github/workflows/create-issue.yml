@@ -25,8 +25,9 @@ jobs:
       - name: Setar valores da issue
         id: set_issue_values
         run: |
-          rg_name=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[0]')
-          sa_name=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[1]')
+          payload=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[]')
+          rg_name=$(echo $payload | jq -r '.[0]')
+          sa_name=$(echo $payload | jq -r '.[1]')
           echo "::set-output name=rg_name::$rg_name"
           echo "::set-output name=sa_name::$sa_name"
 
