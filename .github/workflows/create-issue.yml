@@ -21,12 +21,12 @@ jobs:
         with:
           issue_number: ${{ github.event.issue.number }}
 
-      # Examples on how to use the output
-      - name: Show parsed payload data
+      # Exemplo de como usar a saída
+      - name: Mostrar dados da issue
         run: |
-          # Using the character `'` to prevent all characters enclosed within
-          # them from being treated as special characters (e.g. $ or `)
+          # Usando o caractere `'` para evitar que todos os caracteres contidos
+          # dentro deles sejam tratados como caracteres especiais (por exemplo, $ ou `)
           echo '${{ steps.parse.outputs.payload }}'
 
-          # Print the value of the "Name" field
-          echo '${{ fromJson(steps.parse.outputs.payload)["Name"] }}'
+          # Imprimir o valor do campo "storage account name"
+          echo '${{ fromJson(steps.parse.outputs.payload)["storage account name"] }}'
