@@ -1,4 +1,3 @@
-
 name: Printar Valores da Issue
 
 on:
@@ -14,8 +13,8 @@ jobs:
   get-issue-number:
     runs-on: ubuntu-latest
     outputs:
-      rg_name: ${{ steps.parse.outputs.rg_name }}
-      sa_name: ${{ steps.parse.outputs.sa_name }}
+      rg_name: ${{ steps.set-outputs.outputs.rg_name }}
+      sa_name: ${{ steps.set-outputs.outputs.sa_name }}
     steps:
       - name: Parse issue
         id: parse
@@ -24,6 +23,7 @@ jobs:
           issue_number: ${{ github.event.issue.number }}
 
       - name: Set outputs
+        id: set-outputs
         run: |
           echo "::set-output name=rg_name::${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
           echo "::set-output name=sa_name::${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
@@ -36,6 +36,7 @@ jobs:
         run: |
           echo "Resource Group Name: ${{ needs.get-issue-number.outputs.rg_name }}"
           echo "Storage Account Name: ${{ needs.get-issue-number.outputs.sa_name }}"
+
 
 
 # name: Printar Valores da Issue
