@@ -51,7 +51,7 @@ jobs:
           az group create --name $RG_NAME --location eastus
 
   create-storage-account:
-    needs: get-issue-number
+    needs: create-resource-group
     runs-on: ubuntu-latest
     steps:
       - name: Log in to Azure
@@ -67,6 +67,7 @@ jobs:
             --resource-group $RG_NAME \
             --location eastus \
             --sku Standard_LRS
+
 
 
 
