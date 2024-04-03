@@ -1,3 +1,4 @@
+
 name: Printar Valores da Issue
 
 on:
@@ -13,7 +14,8 @@ jobs:
   get-issue-number:
     runs-on: ubuntu-latest
     outputs:
-      payload: ${{ steps.parse.outputs.payload }}
+      rg_name: ${{ steps.parse.outputs.rg_name }}
+      sa_name: ${{ steps.parse.outputs.sa_name }}
     steps:
       - name: Parse issue
         id: parse
@@ -21,9 +23,47 @@ jobs:
         with:
           issue_number: ${{ github.event.issue.number }}
 
+      - name: Set outputs
+        run: |
+          echo "::set-output name=rg_name::${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
+          echo "::set-output name=sa_name::${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
+
+  show-parsed-data:
+    needs: get-issue-number
+    runs-on: ubuntu-latest
+    steps:
       - name: Show parsed payload data
         run: |
-          echo "${{ steps.parse.outputs.payload }}"
-          echo "${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
-          echo "${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
+          echo "Resource Group Name: ${{ needs.get-issue-number.outputs.rg_name }}"
+          echo "Storage Account Name: ${{ needs.get-issue-number.outputs.sa_name }}"
+
+
+# name: Printar Valores da Issue
+
+# on:
+#   issues:
+#     types: [opened]
+#   workflow_dispatch:
+#     inputs:
+#       issue_number:
+#         description: "Número da Issue utilizada"
+#         type: number
+
+# jobs:
+#   get-issue-number:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       payload: ${{ steps.parse.outputs.payload }}
+#     steps:
+#       - name: Parse issue
+#         id: parse
+#         uses: onmax/issue-form-parser@v1.4
+#         with:
+#           issue_number: ${{ github.event.issue.number }}
+
+#       - name: Show parsed payload data
+#         run: |
+#           echo "${{ steps.parse.outputs.payload }}"
+#           echo "${{ fromJson(steps.parse.outputs.payload)['rg_name'] }}"
+#           echo "${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
 
