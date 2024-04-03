@@ -32,15 +32,52 @@ jobs:
     needs: get-issue-number
     runs-on: ubuntu-latest
     steps:
-      - name: Show parsed payload data
+      - name: Creating Variables
         run: |
           echo "Resource Group Name: ${{ needs.get-issue-number.outputs.rg_name }}"
           echo "Storage Account Name: ${{ needs.get-issue-number.outputs.sa_name }}"
           rg_name="${{ needs.get-issue-number.outputs.rg_name }}"
           sa_name="${{ needs.get-issue-number.outputs.sa_name }}"
-          echo "Resource Group Name: $rg_name"
-          echo "Storage Account Name: $sa_name"
 
+  setup-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  create-resource-group:
+    needs: get-issue-number
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Resource Group
+        env:
+          RG_NAME: ${{ needs.get-issue-number.outputs.rg_name }}
+        run: |
+          az group create --name $RG_NAME --location eastus
+
+  create-storage-account:
+    needs: get-issue-number
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Storage Account
+        env:
+          RG_NAME: ${{ needs.get-issue-number.outputs.rg_name }}
+          SA_NAME: ${{ needs.get-issue-number.outputs.sa_name }}
+        run: |
+          # Install Azure CLI
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+          # Log in to your Azure account
+          az login --service-principal -u $SERVICE_PRINCIPAL_ID -p $SERVICE_PRINCIPAL_SECRET --tenant $TENANT_ID
+
+          # Create the Storage Account
+          az storage account create \
+            --name $SA_NAME \
+            --resource-group $RG_NAME \
+            --location eastus \
+            --sku Standard_LRS
 
 
 # name: Printar Valores da Issue
