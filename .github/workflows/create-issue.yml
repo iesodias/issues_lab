@@ -10,11 +10,10 @@ on:
         type: number
 
 jobs:
-  get-issue-values:
+  get-issue-number:
     runs-on: ubuntu-latest
     outputs:
-      rg_name: ${{ steps.parse.outputs.rg_name }}
-      sa_name: ${{ steps.parse.outputs.sa_name }}
+      payload: ${{ steps.parse.outputs.payload }}
     steps:
       - name: Parse issue
         id: parse
@@ -22,17 +21,15 @@ jobs:
         with:
           issue_number: ${{ github.event.issue.number }}
 
-      - name: Setar valores da issue
-        id: set_issue_values
+      - name: Show parsed payload data
         run: |
-          payload="${{ steps.parse.outputs.payload }}"
-          rg_name=$(echo "$payload" | awk -F "\n" '{print $1}' | cut -d':' -f2)
-          sa_name=$(echo "$payload" | awk -F "\n" '{print $2}' | cut -d':' -f2)
+          echo '${{ steps.parse.outputs.payload }}'
+
+          rg_name=$(echo '${{ steps.parse.outputs.payload }}' | jq -r '.sections[0]')
+          sa_name=$(echo '${{ steps.parse.outputs.payload }}' | jq -r '.sections[1]')
+
+          echo "Resource Group Name: $rg_name"
+          echo "Storage Account Name: $sa_name"
+
           echo "::set-output name=rg_name::$rg_name"
           echo "::set-output name=sa_name::$sa_name"
-
-      # Exemplo de como usar os valores capturados
-      - name: Mostrar valores da issue
-        run: |
-          echo "Nome do Resource Group: ${{ steps.outputs.rg_name }}"
-          echo "Nome do Storage Account: ${{ steps.outputs.sa_name }}"
