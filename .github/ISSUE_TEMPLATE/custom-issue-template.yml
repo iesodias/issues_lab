@@ -7,7 +7,7 @@ body:
     attributes:
       label: "Resource"
       options:
-        - label: "Bastion"
-          value: "bastion"
+        - bastion
+        - bastion1
     validations:
       required: true
