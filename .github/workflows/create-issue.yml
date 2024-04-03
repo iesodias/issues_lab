@@ -18,13 +18,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  get-issue-number:
-    needs: setup-env
-    runs-on: ubuntu-latest
-    outputs:
-      rg_name: ${{ steps.set-outputs.outputs.rg_name }}
-      sa_name: ${{ steps.set-outputs.outputs.sa_name }}
-    steps:
       - name: Parse issue
         id: parse
         uses: onmax/issue-form-parser@v1.4
@@ -38,12 +31,12 @@ jobs:
           echo "::set-output name=sa_name::${{ fromJson(steps.parse.outputs.payload)['sa_name'] }}"
 
   create-resource-group:
-    needs: get-issue-number
+    needs: setup-env
     runs-on: ubuntu-latest
     steps:
       - name: Create Resource Group
         env:
-          RG_NAME: ${{ needs.get-issue-number.outputs.rg_name }}
+          RG_NAME: ${{ needs.setup-env.outputs.rg_name }}
         run: |
           az group create --name $RG_NAME --location eastus
 
@@ -53,14 +46,15 @@ jobs:
     steps:
       - name: Create Storage Account
         env:
-          RG_NAME: ${{ needs.get-issue-number.outputs.rg_name }}
-          SA_NAME: ${{ needs.get-issue-number.outputs.sa_name }}
+          RG_NAME: ${{ needs.setup-env.outputs.rg_name }}
+          SA_NAME: ${{ needs.setup-env.outputs.sa_name }}
         run: |
           az storage account create \
             --name $SA_NAME \
             --resource-group $RG_NAME \
             --location eastus \
             --sku Standard_LRS
+
 
 
 
