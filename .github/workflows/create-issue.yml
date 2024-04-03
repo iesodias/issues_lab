@@ -10,10 +10,11 @@ on:
         type: number
 
 jobs:
-  get-issue-number:
+  get-issue-values:
     runs-on: ubuntu-latest
     outputs:
-      issue_number: ${{ github.event.inputs.issue_number }}
+      rg_name: ${{ steps.parse.outputs.rg_name }}
+      sa_name: ${{ steps.parse.outputs.sa_name }}
     steps:
       - name: Parse issue
         id: parse
@@ -21,12 +22,14 @@ jobs:
         with:
           issue_number: ${{ github.event.issue.number }}
 
-      # Exemplo de como usar a saída
-      - name: Mostrar dados da issue
+      - name: Setar valores da issue
+        id: set_issue_values
         run: |
-          # Usando o caractere `'` para evitar que todos os caracteres contidos
-          # dentro deles sejam tratados como caracteres especiais (por exemplo, $ ou `)
-          echo '${{ steps.parse.outputs.payload }}'
+          echo "::set-output name=rg_name::${{ steps.parse.outputs.rg_name }}"
+          echo "::set-output name=sa_name::${{ steps.parse.outputs.sa_name }}"
 
-          # Imprimir o valor do campo "storage account name"
-          echo '${{ fromJson(steps.parse.outputs.payload)["storage account name"] }}'
+      # Exemplo de como usar os valores capturados
+      - name: Mostrar valores da issue
+        run: |
+          echo "Nome do Resource Group: ${{ steps.parse.outputs.rg_name }}"
+          echo "Nome do Storage Account: ${{ steps.parse.outputs.sa_name }}"
