@@ -1,11 +1,11 @@
-name: Teste
-description: "teste"
+name: Solicitação para Criar um Resource Group no Azure
+description: "Essa issue visa criar um resource group na Azure"
 labels: ["Teste"]
 body:
   - type: dropdown
     id: resource
     attributes:
-      label: "Resource"
+      label: "Name"
       options:
         - bastion
         - bastion1
