@@ -36,6 +36,10 @@ jobs:
         run: |
           echo "Resource Group Name: ${{ needs.get-issue-number.outputs.rg_name }}"
           echo "Storage Account Name: ${{ needs.get-issue-number.outputs.sa_name }}"
+          rg_name="${{ needs.get-issue-number.outputs.rg_name }}"
+          sa_name="${{ needs.get-issue-number.outputs.sa_name }}"
+          echo "Resource Group Name: $rg_name"
+          echo "Storage Account Name: $sa_name"
 
 
 
