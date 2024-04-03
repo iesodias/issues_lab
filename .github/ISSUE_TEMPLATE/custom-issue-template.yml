@@ -3,17 +3,9 @@ description: "Essa issue visa criar um resource group na Azure"
 labels: ["Teste"]
 body:
   - type: input
-    id: rg_name
+    id: Name
     attributes:
-      label: "Nome do Resource Group"
-      placeholder: "Digite o nome do Resource Group aqui"
-    validations:
-      required: true
-
-  - type: input
-    id: sa_name
-    attributes:
-      label: "Nome do Storage Account"
+      label: "Name"
       placeholder: "Digite o nome do Resource Group aqui"
     validations:
       required: true
