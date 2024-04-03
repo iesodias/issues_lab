@@ -4,7 +4,7 @@ labels: ["Teste"]
 body:
   - type: dropdown
     id: resource
-    label: "Resource"
-    options:
-      - value: "bastion"
-        label: "Bastion"
+    attributes:
+      label: "Resource"
+      options:
+        - bastion
