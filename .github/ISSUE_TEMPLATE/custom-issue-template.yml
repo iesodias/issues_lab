@@ -8,3 +8,5 @@ body:
       label: "Resource"
       options:
         - bastion
+    validations:
+      required: true
