@@ -2,12 +2,24 @@ name: Solicitação para Criar um Resource Group no Azure
 description: "Essa issue visa criar um resource group na Azure"
 labels: ["Teste"]
 body:
-  - type: dropdown
+  - type: input
     id: resource
     attributes:
-      label: "Name"
-      options:
-        - bastion
-        - bastion1
+      label: "Nome do Resource Group"
+      placeholder: "Digite o nome do Resource Group aqui"
     validations:
       required: true
+
+# name: Solicitação para Criar um Resource Group no Azure
+# description: "Essa issue visa criar um resource group na Azure"
+# labels: ["Teste"]
+# body:
+#   - type: dropdown
+#     id: resource
+#     attributes:
+#       label: "Name"
+#       options:
+#         - bastion
+#         - bastion1
+#     validations:
+#       required: true
