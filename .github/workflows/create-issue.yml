@@ -23,10 +23,10 @@ jobs:
 
       - name: Show parsed payload data
         run: |
-          echo '${{ steps.parse.outputs.payload }}'
+          echo "${{ steps.parse.outputs.payload }}"
 
-          rg_name=$(echo '${{ steps.parse.outputs.payload }}' | jq -r '.sections[0]')
-          sa_name=$(echo '${{ steps.parse.outputs.payload }}' | jq -r '.sections[1]')
+          rg_name=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[]' | sed -n '1p')
+          sa_name=$(echo "${{ steps.parse.outputs.payload }}" | jq -r '.sections[]' | sed -n '2p')
 
           echo "Resource Group Name: $rg_name"
           echo "Storage Account Name: $sa_name"
