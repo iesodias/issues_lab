@@ -25,4 +25,4 @@ jobs:
         run: |
           echo "${{ steps.parse.outputs.payload }}"
 
-          echo '${{ fromJson(steps.parse.outputs.payload)["Name"] }}'
+          echo '${{ fromJson(steps.parse.outputs.payload)["name"] }}'
