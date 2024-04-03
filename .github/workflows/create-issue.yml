@@ -1,24 +1,24 @@
-name: Create Issue
+name: Printar Valores da Issue
 
 on:
-  push:
-    branches:
-      - main  # substitua 'main' pelo nome do seu branch padrão, se necessário
+  issues:
+    types: [opened]
 
 jobs:
-  create_issue:
+  print-values:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Issue
+      - name: Checkout do código
+        uses: actions/checkout@v2
+      
+      - name: Printar valores da issue
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issue = await github.issues.create({
+            const { data: issue } = await github.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'New Issue Title',
-              body: 'New Issue Body',
+              issue_number: context.issue.number
             });
-            console.log(issue);
-
+            console.log('Nome do Resource Group:', issue.body);
