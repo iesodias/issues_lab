@@ -45,6 +45,8 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: Create Resource Group
+        env:
+          RG_NAME: ${{ needs.get-issue-number.outputs.rg_name }}
         run: |
           az group create --name $RG_NAME --location eastus
 
